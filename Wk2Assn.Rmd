@@ -1,0 +1,31 @@
+---
+title: "California Power Plants"
+author: "NJP"
+date: "March 31, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, fig.width=12, fig.height=12)
+
+require(leaflet)
+
+```
+
+#California Independent System Operator Power Plants - March 31, 2017
+
+```{r, echo=FALSE}
+
+eGrid<-read.csv(file = 'eGridClean.csv', header = TRUE, sep = ",")
+
+CAISO<-subset(eGrid,subset = eGrid$BANAME==unique(eGrid$BANAME)[12])
+
+map<-leaflet(data=CAISO) %>%
+        addTiles() %>%
+        addMarkers(lng=~LON, lat=~LAT, label=paste(CAISO$PLFUELCT,CAISO$PNAME,CAISO$NAMEPCAP))
+
+map
+
+```
+
